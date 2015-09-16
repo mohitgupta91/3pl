@@ -16,7 +16,8 @@
 							"searching" : true,
 							"ordering" : true,
 							"info" : true,
-							"autoWidth" : false
+							"autoWidth" : false,
+							dom : 'T<"clear">lfrtip',
 						});
 						$('#daterange')
 								.daterangepicker(
@@ -238,7 +239,7 @@
                      <div class="input-group">
                      <select name="zone"
 												class="form-control select2 required">
-                     <option selected disabled value="">Select Zone</option>
+                     <option selected readonly value="">Select Zone</option>
                      <c:forEach var="zone" items="${zone}">
                       <option value="${zone}">${zone}</option>
                       </c:forEach>

@@ -1,6 +1,6 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 	
 <tags:page title="User">
 <jsp:attribute name="script">
 <script>
@@ -15,6 +15,13 @@ $("#userTable").DataTable({
     "autoWidth": false
 });
 });
+
+function toggleUser(id,enabled)
+{
+	alert("here");
+// 	$.post("<c:url value='/User/enableDisable'/>",{'id':id,'enabled':enabled});
+	window.location = '<c:url value="/User/enableDisable?id='+id+'&enabled='+enabled+'" />' ;
+}
 </script>
 
 </jsp:attribute>
@@ -55,13 +62,13 @@ $("#userTable").DataTable({
                         	${shipper.courier}<br>
                         </c:forEach>
                         </td>
-                        <td>
+                        <td> 
                         <c:choose>
                         	<c:when test="${item.enabled == true }">
-                        		<button class="btn btn-danger" onclick="toggleUser(${item.id},${item.enabled})">Disable</button>
+                        		<button class="btn btn-danger" onclick="toggleUser(${item.id},${item.enabled});">Disable</button>
                        		</c:when>
                         	<c:otherwise>
-                        		<button class="btn btn-success" onclick="toggleUser(${item.id},${item.enabled})">Enable</button>
+                        		<button class="btn btn-success" onclick="toggleUser(${item.id},${item.enabled});">Enable</button>
                         	</c:otherwise>
                         </c:choose>&nbsp;&nbsp;
                         <a href=<c:url value="/User/edit/${item.id}"/> class="btn btn-default">Edit</a>&nbsp;&nbsp;

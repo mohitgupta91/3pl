@@ -6,7 +6,7 @@ import com.snapdeal.dto.DropshipFilter;
 import com.snapdeal.entity.Dropship;
 
 public interface DropshipDao {
-	public List<Dropship> getAllData();
+	public List<Dropship> getAllData(List<String> shipperList,String date);
 
 	public List<String> getModes();
 

@@ -223,7 +223,7 @@
                     <select name="shipper" class="form-control select2">
                       <option selected readonly value="">Select Shipper</option>
                      <c:forEach var="shipper" items="${shipper}">
-                      <option value="${shipper}">${shipper}</option>
+                      <option value="${shipper.courier}">${shipper.courier}</option>
                      </c:forEach>
                     </select>
                   </div>
@@ -238,7 +238,7 @@
                      <div class="input-group">
                      <select name="zone"
 												class="form-control select2 required">
-                     <option selected disabled value="">Select Zone</option>
+                     <option selected readonly value="">Select Zone</option>
                      <c:forEach var="zone" items="${zone}">
                       <option value="${zone}">${zone}</option>
                       </c:forEach>
@@ -351,11 +351,7 @@
                     </table>
                     </c:otherwise>
                     </c:choose>
-                    <div align="center">
-                    	<button class="btn btn-app" onclick="save();">
-                    	<i class="fa fa-save"></i>Save to File
-                    	</button>
-                    </div>
+                   
         		</div>
 				</div>
 			</div>

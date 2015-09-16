@@ -26,19 +26,15 @@ public class CancellationDaoImpl implements CancellationDao{
 		String[] daterange  = date.split(":");
 		String startDate = daterange[0];
 		String endDate = daterange[1];
-		System.out.println(startDate);
-		System.out.println(endDate);
-	
 		
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager.createQuery("Select  canc from Cancellation canc where canc.shipper IN (:shipperList) and canc.created BETWEEN :start AND :end");
 		query.setParameter("shipperList",shipperList);
 		query.setParameter("start",DateConvertor.convertToDate(startDate));
 		query.setParameter("end",DateConvertor.convertToDate(endDate));
-		System.out.println(DateConvertor.convertToDate(endDate));
-		System.out.println(DateConvertor.convertToDate(startDate));
+	
 		List<Cancellation> resultList = query.getResultList();
-		System.out.println(resultList.size());
+		
 		return resultList;
 	}
 

@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.snapdeal.entity.Roles;
@@ -42,7 +43,7 @@ public class UserController {
 	@RequestMapping("/save")
 	public String saveUser(@ModelAttribute("user") User user, @RequestParam("role") Long[] roles,
 				@RequestParam("shipper") Long[] shippers,ModelMap map) {
-		System.out.println(user.getUsername());
+	
 		List<Roles> finalRoles = new ArrayList<Roles>();
 		List<Shipper> finalShippers = new ArrayList<Shipper>();
 		
@@ -102,8 +103,28 @@ public class UserController {
 		return "User/edit";
 	}
 
+	@RequestMapping("/enableDisable")
+	public String enableOrDisable(@RequestParam("id") Long id,@RequestParam("enabled") boolean enabled,ModelMap map) 
+	{			
+		if(enabled)
+		{
+			userService.disableUser(id);
+		}
+		else
+		{
+			userService.enableUser(id);
+		}
+		
+		String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<User> userList = userService.getUsersExceptLoggedIn(currentUser);
+		map.put("users", userList);
+		
+		return "User/view";
+	}
+	
 	@RequestMapping("/changePassword/{id}")
-	public String changePassword(@PathVariable("id") Long id, ModelMap map) {
+	public String changePassword(@PathVariable("id") Long id, ModelMap map) 
+	{
 		User user = userService.findUserById(id);
 
 		map.put("userName", user.getUsername());
@@ -121,6 +142,8 @@ public class UserController {
 
 		return "User/view";
 	}
+	
+	
 
 	public String getHashedPassword(String password) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

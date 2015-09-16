@@ -89,14 +89,15 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void enableUser(Long id) {
+	public void enableUser(Long id) {System.out.println("inside");
 		User user = entityDao.findById(User.class, id);
+		System.out.println(user.getUsername());
 		user.setEnabled(true);
-		entityDao.saveOrUpdate(user);
+		saveOrUpdateUser(user);
 	}
 
 	@Override
-	public void disableUser(Long id) {
+	public void disableUser(Long id) {System.out.println("inside");
 		User user = entityDao.findById(User.class, id);
 		user.setEnabled(false);
 		entityDao.saveOrUpdate(user);

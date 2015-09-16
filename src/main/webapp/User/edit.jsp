@@ -40,10 +40,11 @@
                                 
                     
                     <div class="form-group ">
-                    <div class="select2-container select2-container-multi">
+                    <div>
                     <label>Roles</label>
-                    <select name="role" multiple="multiple"
-												class="form-control select2">
+                    </div>
+                    <div class="chosen-container-multi chosen-container">
+                    <select name="role" multiple="multiple"	class="form-control required" data-rel="chosen">
                       <c:forEach var="roles" items="${roles}">
                       			<c:set var="found" value="false" />
                       			<c:forEach var="savedRole"
@@ -62,11 +63,12 @@
                   </div>
                   
                   <div class="form-group ">
-                    <div
-											class="select2-container select2-container-multi">
+                    <div>
                     <label>Shippers</label>
+                    </div>
+                    <div class="chosen-container-multi chosen-container">
                     <select name="shipper" multiple="multiple"
-												class="form-control select2">
+												class="form-control required" data-rel="chosen">
                      <c:forEach var="shipper" items="${shippers}">
 							<c:forEach var="savedShipper" items="${user.shippers}">
 									<c:set var="found" value="false" />

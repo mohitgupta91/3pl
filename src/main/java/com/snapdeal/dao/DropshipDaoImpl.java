@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.snapdeal.dto.DropshipFilter;
-import com.snapdeal.dto.SdPlusFilter;
 import com.snapdeal.entity.Dropship;
 import com.snapdeal.util.DateConvertor;
 
@@ -25,10 +24,19 @@ public class DropshipDaoImpl implements DropshipDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Dropship> getAllData() {
+	public List<Dropship> getAllData(List<String> shipperList,String date) {
+		String[] daterange  = date.split(":");
+		String startDate = daterange[0];
+		String endDate = daterange[1];
+	
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager
-				.createQuery("Select  drop from Dropship drop");
+		Query query = entityManager.createQuery("Select drop from Dropship drop where shipper IN (:shippers) " +
+							"and drop.created BETWEEN :start AND :end ");
+		
+		query.setParameter("shippers",shipperList);
+		query.setParameter("start",DateConvertor.convertToDate(startDate));
+		query.setParameter("end",DateConvertor.convertToDate(endDate));
+	
 		List<Dropship> resultList = query.getResultList();
 		return resultList;
 	}
@@ -185,9 +193,10 @@ public class DropshipDaoImpl implements DropshipDao {
 	@Override
 	public List<DropshipFilter> genericGroup(String q,
 			List<String> shipperNames, String shipper, String startDate,
-			String endDate, List<String> pincode) {
-		EntityManager entityManager = entityDao.getEntityManager();
-		if (pincode.size() > 8000) {
+			String endDate, List<String> pincode) 
+			{
+			EntityManager entityManager = entityDao.getEntityManager();
+			if (pincode.size() > 8000) {
 			int num_batches = pincode.size() / 8000 + 1;
 			System.out.println(num_batches);
 			ArrayList<ArrayList<String>> pincodeList = new ArrayList<ArrayList<String>>();

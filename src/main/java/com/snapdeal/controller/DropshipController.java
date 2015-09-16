@@ -1,31 +1,28 @@
 package com.snapdeal.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snapdeal.dao.DropshipDao;
 import com.snapdeal.dao.PincodeDao;
 import com.snapdeal.dto.DropshipFilter;
 import com.snapdeal.dto.Filters;
 import com.snapdeal.entity.Dropship;
+import com.snapdeal.entity.Shipper;
 import com.snapdeal.entity.User;
 import com.snapdeal.service.DropshipService;
+import com.snapdeal.util.DateConvertor;
 import com.snapdeal.util.ShipperNames;
 
 @Controller
@@ -44,22 +41,27 @@ public class DropshipController {
 	@Named("pincodeDao")
 	PincodeDao pincodeDao;
 
-	public static final Logger LOGGER = Logger
-			.getLogger(DropshipController.class);
+	public static final Logger LOGGER = Logger.getLogger(DropshipController.class);
 
 	@RequestMapping("dropship")
 	public String getcompleteData(ModelMap map) {
-		List<Dropship> dropshipList = dropshipDao.getAllData();
-		List<String> shipperList = dropshipDao.getShippers();
+		
+		String date = DateConvertor.convertToString(new Date());
+		date += ":"+date;
+		
+		User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();	
+		List<Shipper> userShipper = currentUser.getShippers();
+		List<String> shipperNames = ShipperNames.getNamesFromShippers(userShipper);		
+		
+		List<Dropship> dropshipList = dropshipDao.getAllData(shipperNames,date);
 		List<String> modeList = dropshipDao.getModes();
-		List<String> groupList = dropshipDao.getShipperGroups();
 		List<String> zoneList = pincodeDao.getZones();
 
-		map.put("shipper", shipperList);
+		map.put("shipper", userShipper);
 		map.put("mode", modeList);
-		map.put("group", groupList);
 		map.put("data", dropshipList);
 		map.put("zone", zoneList);
+		
 		return "/Dashboard/dropship";
 	}
 
@@ -73,15 +75,11 @@ public class DropshipController {
 		String startDate = dates[0].trim();
 		String endDate = dates[1].trim();
 		String zone = filter.getZone();
+		
+		
 		List<String> zoneList = pincodeDao.getZones();
-		System.out.println("group" + group);
-		System.out.println("shipper" + shipper);
-		System.out.println("daterange" + daterange);
-		System.out.println("zone" + zone);
-		List<String> shipperList = dropshipDao.getShippers();
 		List<String> modeList = dropshipDao.getModes();
-		List<String> groupList = dropshipDao.getShipperGroups();
-
+		
 		User currentUser = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		List<String> shipperNames = ShipperNames
@@ -161,11 +159,11 @@ public class DropshipController {
 					startDate, endDate, pincodeList);
 		}
 		
-		map.put("shipper", shipperList);
+		map.put("shipper", currentUser.getShippers());
 		map.put("mode", modeList);
-		map.put("group", groupList);
 		map.put("zone",zoneList);
 		map.put("filterData", dropshipData);
+		
 		return "/Dashboard/dropship";
 	}
 

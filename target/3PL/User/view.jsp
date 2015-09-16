@@ -15,6 +15,12 @@ $("#userTable").DataTable({
     "autoWidth": false
 });
 });
+
+function toggleUser(id,enabled)
+{
+	alert("here");
+	$.post("<c:url value='/User/enableDisable'/>",{'id':id,'enabled':enabled});
+}
 </script>
 
 </jsp:attribute>

@@ -163,12 +163,12 @@
   cursor: default;
 }
 .chosen-container .chosen-results li.highlighted {
-  background-color: #19bc9c;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #19bc9c), color-stop(90%, #19bc9c));
-  background-image: -webkit-linear-gradient(#19bc9c 20%, #19bc9c 90%);
-  background-image: -moz-linear-gradient(#19bc9c 20%, #19bc9c 90%);
-  background-image: -o-linear-gradient(#19bc9c 20%, #19bc9c 90%);
-  background-image: linear-gradient(#19bc9c 20%, #19bc9c 90%);
+  background-color: #3c8dbc;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3c8dbc), color-stop(90%, #3c8dbc));
+  background-image: -webkit-linear-gradient(#3c8dbc 20%, #3c8dbc 90%);
+  background-image: -moz-linear-gradient(#3c8dbc 20%, #3c8dbc 90%);
+  background-image: -o-linear-gradient(#3c8dbc 20%, #3c8dbc 90%);
+  background-image: linear-gradient(#3c8dbc 20%, #3c8dbc 90%);
   color: #fff;
 }
 .chosen-container .chosen-results li.no-results {

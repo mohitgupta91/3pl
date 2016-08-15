@@ -37,7 +37,7 @@ public class EntityDaoImpl implements EntityDao {
 	@Override
 	public <T extends BaseEntity> void saveOrUpdate(T object) {
 		if(object.getId() != null)
-		{	System.out.println("here");
+		{	
 			entityManager.merge(object);
 		}
 		else {

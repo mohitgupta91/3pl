@@ -16,7 +16,8 @@
 							"searching" : true,
 							"ordering" : true,
 							"info" : true,
-							"autoWidth" : false
+							"autoWidth" : false,
+							dom : 'T<"clear">lfrtip',
 						});
 						$('#daterange')
 								.daterangepicker(
@@ -101,88 +102,14 @@
 										});
 
 					});
-
-	/* function save()
-	 {
-	 var data= new Array();
-	
-	 if ( "${filterData}" != "")
-	 {
-
-	 <c:forEach var="item" items="${filterData}" >
-	 var obj = new Object();
-	 obj.shipperGroup = "${item.shipperGroup}";
-	 obj.shipper = "${item.shipper}";
-	 obj.mode = "${item.mode}";
-	 obj.shippedToday= "${item.shippedToday}";
-	 obj.notshippedOneDay= "${item.notshippedOneDay}";
-	 obj.notshippedTwoDays= "${item.notshippedTwoDays}";
-	 obj.notshippedThreeDays= "${item.notshippedThreeDays}";
-	 obj.notshippedFourDays= "${item.notshippedFourDays}";
-	 obj.notshippedMoreFourDays= "${item.notshippedMoreFourDays}";
-
-	 data.push(obj);
-	 </c:forEach>
-	
-	 data = JSON.stringify(data);
-	 $.ajax({
-	
-	 url : "/3PL/Dashboard/dropship/saveToFile1",
-	 method : "POST",
-	 contentType : "application/json",
-	 mimeType: 'application/json',
-	 dataType:"text",
-	 data : data ,
-	
-	 success: function(data){alert(data);},
-	 error: function(xhr, textStatus, errorThrown){
-	 alert('request failed'+errorThrown+textStatus);
-	 }
-	 });
-	 }
-	 else
-	 {
-	 <c:forEach var="item" items="${data}" >
-	 var obj = new Object();
-	 obj.shipperGroup = "${item.shipperGroup}";
-	 obj.shipper = "${item.shipper}";
-	 obj.mode = "${item.mode}";
-	 obj.shippedToday= "${item.shippedToday}";
-	 obj.notshippedOneDay= "${item.notshippedOneDay}";
-	 obj.notshippedTwoDays= "${item.notshippedTwoDays}";
-	 obj.notshippedThreeDays= "${item.notshippedThreeDays}";
-	 obj.notshippedFourDays= "${item.notshippedFourDays}";
-	 obj.notshippedMoreFourDays= "${item.notshippedMoreFourDays}";
-
-	 data.push(obj);	
-	 </c:forEach>
-	
-	 data = JSON.stringify(data);
-	 $.ajax({
-	
-	 url : "/3PL/Dashboard/dropship/saveToFile2",
-	 method : "POST",
-	 contentType : "application/json",
-	 mimeType: 'application/json',
-	 dataType:"json",
-	 data : data ,
-	
-	 success: function(data){alert(data);},
-	 error: function(xhr, textStatus, errorThrown){
-	 alert('request failed'+errorThrown+textStatus);
-	 }
-	 });	
-	 }
-	 alert(data);
-	
-	 } */
 </script>
 
 </jsp:attribute>
 	<jsp:body>
  <section class="content-header">
           <h1>
-            Dropship Data
+            Dropship Data 
+      
           </h1>
         </section>
           <div class="row">
@@ -282,8 +209,10 @@
                     <thead>
                       <tr>
                         <th>Shipper Group</th>
+						<c:if test="${group_aggr > 5 }">
                         <th>Shipper</th>
-                        <th>Mode</th>
+						</c:if>                        
+						<th>Mode</th>
                         <th>Center</th>
                         <th>Seller Pincode</th>
                         <th>Seller State</th>
@@ -300,7 +229,9 @@
                     <c:forEach var="item" items="${data}">
                     <tr>
                         <td>${item.shipperGroup}</td>
+                        <c:if test="${group_aggr > 5 }">
                         <td>${item.shipper}</td>
+                        </c:if>
                         <td>${item.mode}</td>
                         <td>${item.center}</td>
                         <td>${item.sellerPinCode}</td>
@@ -323,7 +254,11 @@
                     <thead>
                       <tr>
                         <th>Shipper Group</th>
+                                               <c:if
+												test="${group_aggr > 5}">
+                       
                         <th>Shipper</th>
+											</c:if>
                         <th>Mode</th>
                         <th>Shipped Today</th>
                         <th>Not Shipped One Day</th>
@@ -337,7 +272,10 @@
                     <c:forEach var="item" items="${filterData}">
                     <tr>
                         <td>${item.shipperGroup}</td>
+                                                <c:if
+													test="${group_aggr > 5}">
                         <td>${item.shipper}</td>
+												</c:if>
                         <td>${item.mode}</td>
                         <td>${item.shippedToday}</td>
                         <td>${item.notshippedOneDay}</td>
@@ -351,7 +289,6 @@
                     </table>
                     </c:otherwise>
                     </c:choose>
-                   
         		</div>
 				</div>
 			</div>
